@@ -1,0 +1,6 @@
+{
+  "name": "AI 數據分析與洞察工具",
+  "description": "一個智慧型的 AI 數據分析工具，支援 CSV 報表貼上、多維度統計分析、趨勢與異常檢測，並自動生成繁體中文的專業洞察報告。",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
