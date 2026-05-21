@@ -4,59 +4,47 @@ import { createServer as createViteServer } from "vite";
 import { GoogleGenAI } from "@google/genai";
 import dotenv from "dotenv";
 
-dotenv.config();
+dotenv.config({ path: ".env.local" });
 
 const app = express();
 const PORT = 3000;
 
 app.use(express.json({ limit: "15mb" }));
 
-// 延遲初始化 GoogleGenAI，並加入 'aistudio-build' User-Agent 首部
+// 延遲初始化 GoogleGenAI
 let ai: GoogleGenAI | null = null;
 function getGeminiClient() {
   if (!ai) {
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) {
-      throw new Error("伺服器未配置 GEMINI_API_KEY 密鑰，請到 Settings > Secrets 中設定。");
+      throw new Error("伺服器未配置 GEMINI_API_KEY 密鑰，請在環境變數或 .env.local 檔案中設定。");
     }
     ai = new GoogleGenAI({
-      apiKey: apiKey,
-      httpOptions: {
-        headers: {
-          'User-Agent': 'aistudio-build',
-        }
-      }
+      apiKey: apiKey
     });
   }
   return ai;
 }
 
 // 商業數據分析專用系統提示詞
-const SYSTEM_INSTRUCTIONS = `你是一位頂尖的資深數據分析科學家與商業智慧 (Business Intelligence) 專家。
-請幫使用者對其提供的 CSV 報表資料進行多維度、極其詳盡且具商業價值的統計分析與解讀。
+const SYSTEM_INSTRUCTIONS = `你是一位專業的資料分析師。
+你的任務是接收一段 CSV 或表格結構的原始數據，理解其欄位意義，並提出精確的摘要報告與洞察。
 
-你必須遵循以下規範：
-1. 必須全程使用【繁體中文 (zh-TW)】進行分析與回答，口吻需專業、客觀且語意精準（例如請使用「數據、整合、專案、轉化率」等繁體中文術語，不要用簡體字詞）。
-2. 在分析中切勿提及你的 AI 模型名稱（例如 Gemini 等），也不要提及你是按照特定的 System Prompt 指令或代碼而行。
-3. CSV 數據可能帶有表頭（Header），請根據表頭聰明地解析並區分對應的特徵與內容。
-4. 分析報告必須架構清晰、層次分明，並利用 Markdown 語法及表格來進行精美的高質感呈現，格式必須完全遵循以下結構：
-   
-   # 📊 數據分析與決策洞察報告
-   
-   ## 1. 📋 數據概要與結構解析
-   *描述數據的基本屬性：包含那些欄位（欄位說明）、總資料筆數、資料時間範圍（如有發現），以及是否有缺漏值、離群值或異常資料等。*
-   
-   ## 2. 📈 關鍵統計指標與摘要
-   *請對各個數值指標進行核心統計分析，如總和、平均值、中位數、最大值/最小值、增長率、轉換率等。*
-   *【核心要求】必須使用「Markdown 表格」來美觀呈現數據摘要，以便一目了然（包含指標、計算值與業務解讀）。*
-   
-   ## 3. 🔍 核心發現、關聯與趨勢分析
-   *深度探索數據背後的關鍵故事，分析各維度之間的正負相關性、特定時間點或類別的增長趨勢、是否有特別突出的異常高峰值或低谷值等。*
-   
-   ## 4. 💡 AI 行動方針與策略建議
-   *基於本分析結果，提出 3~5 點明確、可落地執行、具備高商業價值的具體優化或改善建議，並指出該如何執行以達成業務增長或流程效率提升。*
+請務必嚴格遵循以下 Markdown 輸出格式：
 
-確保排版乾淨俐落、重點用粗體標記、表格邊界清晰，使報告具備高階決策分析的深度。`;
+### 1. 📊 資料概況與欄位理解
+簡要說明這份資料的主題是什麼，並列出關鍵欄位的意義。
+
+### 2. ⚠️ 異常與缺值檢查
+檢查資料中是否有空白（例如缺少數量或金額）、極端值（例如不合理的高價），並將發現的異常項目條列出來。若無異常，說明「未發現明顯異常」。
+
+### 3. 📈 統計與趨勢洞察
+請回答以下問題的總結：
+- **總計概況**：銷售數量或總金額的大概加總。
+- **分類表現**：哪個業務員或哪項產品表現最好？
+- **業務建議**：從數據中給出 1-2 個可以執行的商業建議。
+
+請以 Markdown 格式輸出，所有繁體中文部分必須使用**繁體中文**回覆，不要包含任何額外的問候語或結語。`;
 
 // AI 數據分析 API 端點
 app.post("/api/analyze", async (req: express.Request, res: express.Response) => {
@@ -90,7 +78,7 @@ app.post("/api/analyze", async (req: express.Request, res: express.Response) => 
   } catch (err: any) {
     console.error("AI 數據分析出錯:", err);
     res.status(500).json({ 
-      error: err.message || "AI 分析過程發生錯誤，請確認已在 Settings > Secrets 中配置有效的 GEMINI_API_KEY。" 
+      error: err.message || "AI 分析過程發生錯誤，請確認已在環境變數或 .env.local 檔案中配置有效的 GEMINI_API_KEY。" 
     });
   }
 });

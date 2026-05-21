@@ -111,13 +111,13 @@ export default function App() {
   };
 
   // 靜態展示後台運作的 System Prompt，使用者可展開預覽，增加信任度與可玩性
-  const SYSTEM_INSTRUCTION_PREVIEW = `你是一位頂尖的資深數據分析科學家與商業智慧 (Business Intelligence) 專家。請幫使用者對其提供的 CSV 報表資料進行多維度、極其詳盡且具商業價值的統計分析與解讀。
-1. 必須全程使用【繁體中文 (zh-TW)】
-2. 輸出格式請使用 Markdown 項目：
-   - 1. 📋 數據概要與結構解析
-   - 2. 📈 關鍵統計指標與摘要 (必用 Markdown 表格呈現)
-   - 3. 🔍 核心發現、關聯與趨勢分析
-   - 4. 💡 AI 行動方針與策略建議`;
+  const SYSTEM_INSTRUCTION_PREVIEW = `你是一位專業的資料分析師。
+任務是接收一段 CSV 或表格結構的原始數據，理解其欄位意義，並提出精確的摘要報告與洞察。
+
+請務必嚴格遵循以下 Markdown 輸出格式：
+1. 📊 資料概況與欄位理解
+2. ⚠️ 異常與缺值檢查
+3. 📈 統計與趨勢洞察 (總計概況、分類表現、業務建議)`;
 
   return (
     <div className="min-h-screen bg-slate-100/90 text-slate-950 font-sans p-4 sm:p-6 md:p-8 flex flex-col">
@@ -356,7 +356,7 @@ export default function App() {
                   {error}
                 </p>
                 <p className="text-[10px] text-rose-500 font-normal">
-                  請至環境 Settings &gt; Secrets 設定有效的 <code className="bg-rose-100/80 px-1 py-0.5 font-mono text-rose-800 rounded">GEMINI_API_KEY</code> 金鑰以解除阻擋。
+                  請至 <code className="bg-rose-100/80 px-1 py-0.5 font-mono text-rose-800 rounded">.env.local</code> 檔案或環境變數設定有效的 <code className="bg-rose-100/80 px-1 py-0.5 font-mono text-rose-800 rounded">GEMINI_API_KEY</code> 金鑰以解除阻擋。
                 </p>
               </div>
             </div>

@@ -1,20 +1,54 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
-</div>
+# 📊 AI 數據分析與洞察工具 (AI Data Analysis & Insight Tool)
 
-# Run and deploy your AI Studio app
+一個智慧型的 AI 數據分析工具，支援 CSV 報表資料貼上、多維度統計分析、趨勢與異常檢測，並藉由 Gemini-3.5-Flash 自動生成高品質、可落地的繁體中文商業洞察報告。
 
-This contains everything you need to run your app locally.
+---
 
-View your app in AI Studio: https://ai.studio/apps/3aeb6259-7cfb-4f6d-ab73-f634b83f865d
+## ✨ 核心特色
+- **📊 數據概要與結構解析**：自動辨識 CSV 欄位，檢查資料筆數、離群值與異常值。
+- **📈 關鍵指標美觀呈現**：自動以 Markdown 精美表格呈現平均值、總和、中位數、轉換率等統計數據。
+- **🔍 趨勢與關聯深度探索**：深入發掘特徵之間的關聯性、特定時間點的趨勢波動與高峰低谷。
+- **💡 可落地策略建議**：基於數據分析自動導出 3~5 點極具商業價值的具體行動優化方案。
+- **🖥️ 現代 Bento Grid 儀表板**：採用極致質感的深色/雙色調 Bento 風格 UI，帶來優質的操作體驗。
 
-## Run Locally
+---
 
-**Prerequisites:**  Node.js
+## 🛠️ 本機執行與開發設定
 
+### 系統需求
+- **Node.js** (建議 v18 以上版本)
+- **NPM**
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+### 1. 安裝專案依賴項目
+在專案根目錄執行以下指令安裝所需套件：
+```bash
+npm install
+```
+
+### 2. 設定 API 金鑰
+本專案使用 Google Gemini API 進行數據分析。請在專案根目錄下建立一個 `.env.local` 檔案，並填入您的 API 金鑰：
+```env
+GEMINI_API_KEY="您的_GEMINI_API_KEY_字串"
+```
+> 💡 您可以到 [Google AI Studio](https://aistudio.google.com/) 免費申請或取得您的 Gemini API 金鑰。
+
+### 3. 啟動開發伺服器
+執行以下指令來啟動本機伺服器（預設監聽在 `http://localhost:3000`）：
+```bash
+npm run dev
+```
+
+---
+
+## 📦 生產環境建置與部署
+
+### 1. 專案編譯與打包
+如果您需要部署至生產環境，請先執行以下打包指令，將前端與後端編譯為優化後的檔案：
+```bash
+npm run build
+```
+
+### 2. 啟動生產環境伺服器
+```bash
+npm start
+```
