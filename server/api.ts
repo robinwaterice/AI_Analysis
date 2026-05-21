@@ -1,8 +1,9 @@
 import express from "express";
 import { GoogleGenAI } from "@google/genai";
 import dotenv from "dotenv";
+import path from "path";
 
-dotenv.config({ path: ".env.local" });
+dotenv.config({ path: path.resolve(process.cwd(), ".env.local") });
 
 export const apiRouter = express.Router();
 
