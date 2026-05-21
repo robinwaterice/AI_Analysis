@@ -27,6 +27,7 @@ import {
 } from "lucide-react";
 import { CSV_TEMPLATES } from "./data";
 import MarkdownRenderer from "./components/MarkdownRenderer";
+import { ChartContainer } from "./components/ChartContainer";
 import { AnalysisResult } from "./types";
 
 export default function App() {
@@ -388,6 +389,8 @@ export default function App() {
                 <div className="space-y-6">
                   {/* 印表頂部 metadata 資訊 */}
                   <div className="flex items-center justify-between bg-white/5 border border-white/5 rounded-xl px-4 py-2.5 text-[10px] text-slate-400 font-mono">
+                  {/* Chart visualizations */}
+                  <ChartContainer csvText={csvText} />
                     <span className="flex items-center gap-1.5 text-slate-300">
                       <Clock className="w-3.5 h-3.5 text-indigo-400" />
                       生成時間: {result.timestamp}
